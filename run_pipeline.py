@@ -313,7 +313,6 @@ if __name__ == '__main__':
     if plexus_seg:
         plexus_mask = torchio.ScalarImage(plexus_mask_file)
         plexus_mask = torchio.transforms.Resample(target=t1)(plexus_mask)
-        #plexus_mask_fullres_tensor = plexus_mask.tensor.clone()[0]
         plexus_mask = torchio.transforms.ToCanonical()(plexus_mask)
         plexus_mask_image = threeview(plexus_mask.tensor)
         cm = plt.get_cmap('winter')
