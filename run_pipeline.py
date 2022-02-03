@@ -67,7 +67,6 @@ subcortical_structure_map = {**subcortical_structure_map,
 }
 
 subcortical_structure_map = {
-    'left_gm': [1002, 1003, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 10],
     'brain_stem': [16],
     'third_ventricle': [14],
     'fourth_ventricle': [15],
@@ -118,6 +117,7 @@ cortical_structure_map = {
     **{'right_'+k: [v+1000] for k, v in cortical_structure_map.items()}
 }
 
+
 structures_map = {**subcortical_structure_map, **cortical_structure_map}
 
 if __name__ == '__main__':
@@ -126,8 +126,6 @@ if __name__ == '__main__':
     parser.add_argument('-t1','--t1', help='(Required) Path to the T1 image used for segmentation.', required=True)
     parser.add_argument('-s','--signal', help='(Optional) Path to the image containing the signal to measure (ASL, CBF, T1 weighted perfusion...). This can also be a folder containing multiple images.', required=False)
     parser.add_argument('-r','--register', action='store_true', help='(Optional) Add this flag to register the CFB/ASL images onto the T1 image using FLIRT.', required=False)
-    #parser.add_argument('-no_fs', '--no_fastsurfer', action='store_true', help='(Optional) Add this flag to bipass FastSurfer.', required=False)
-    #parser.add_argument('-no_cp', '--no_plexus', action='store_true', help='(Optional) Add this flag to bipass plexus choroid segmentation.', required=False)
     parser.add_argument('-st', '--structures', help='(Optional) Add other structures to segment.', required=False, default='plexus, plexus')
     parser.add_argument('-fa','--flirt_args', help='(Optional) Additional arguments to pass to FLIRT, for example for changing the cost function.', required=False, default='')
     args = parser.parse_args()
@@ -148,18 +146,6 @@ if __name__ == '__main__':
         fastsurfer = True
     else:
         fastsurfer = False
-    
-    #print(structures)
-    
-    #sys.exit()
-    
-    #fs_label_map = {
-    #    'White matter': [2, 41],
-    #    'Grey matter': ['>1000'],
-    #    'Thalami': [10, 49],
-    #    'Ventricle': [4, 5, 43, 44]
-    #}
-    #fs_label_map = OrderedDict(fs_label_map)
     
     t1_file = os.path.abspath(args.t1)
     
@@ -337,11 +323,8 @@ if __name__ == '__main__':
         
     if fastsurfer:
         fs_seg = torchio.ScalarImage(fs_seg_file)
-        #fs_seg_fullres_tensor = fs_seg.tensor.clone()[0]
-        #fs_seg_fullres_labels = np.zeros(fs_seg_fullres_tensor.shape, dtype=np.int32)
         fs_seg = torchio.transforms.Resample(target=t1, image_interpolation='nearest')(fs_seg)
         fs_seg = torchio.transforms.ToCanonical()(fs_seg)
-        #fs_seg = torchio.transforms.Resample(1, image_interpolation='nearest')(fs_seg)
         fs_seg_image = threeview(fs_seg.tensor)[0]
         fs_seg_image_color = torch.zeros_like(fs_seg_image).float()
         
@@ -349,18 +332,6 @@ if __name__ == '__main__':
             c = (float(i)+1)/len(fs_structures)
             labels = structures_map[struc]
             fs_seg_image_color[np.isin(fs_seg_image, labels)] = c
-            #fs_seg_fullres_labels[np.isin(fs_seg_fullres_tensor.numpy(), labels)] = i
-        
-        #for i, (label, selection) in enumerate(fs_label_map.items()):
-        #    x = (float(i)+1)/len(fs_label_map)
-        #    selection_int = [s for s in selection if isinstance(s, int)]
-        #    selection_str = [s for s in selection if isinstance(s, str)]
-        #    if len(selection_int) > 0:
-        #        fs_seg_image_color[np.isin(fs_seg_image, selection_int)] = x
-        #        fs_seg_fullres_labels[np.isin(fs_seg_fullres_tensor.numpy(), selection_int)] = i
-        #    for sstr in selection_str:
-        #        fs_seg_image_color[eval(f'fs_seg_image {sstr}')] = x
-        #        fs_seg_fullres_labels[eval(f'fs_seg_fullres_tensor.numpy() {sstr}')] = i
         
         cm = plt.get_cmap('plasma')
         alpha = (fs_seg_image_color > 0).float().numpy()
