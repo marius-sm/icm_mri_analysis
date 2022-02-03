@@ -1,7 +1,6 @@
 import time
 import os
 import argparse
-import glob
 import sys
 import subprocess
 import torchio
@@ -13,8 +12,6 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw 
 import numpy as np
-import re
-from collections import OrderedDict
 import pandas as pd
 
 class bcolors:
@@ -129,6 +126,8 @@ if __name__ == '__main__':
     parser.add_argument('-st', '--structures', help='(Optional) Add other structures to segment.', required=False, default='plexus, plexus')
     parser.add_argument('-fa','--flirt_args', help='(Optional) Additional arguments to pass to FLIRT, for example for changing the cost function.', required=False, default='')
     args = parser.parse_args()
+
+    t00 = time.time()
         
     structures = args.structures.split(',')
     for s in structures:
@@ -408,6 +407,8 @@ if __name__ == '__main__':
     
     df_means = pd.DataFrame(means, columns=['Input'] + structures)
     df_means.to_csv(os.path.join(output_dir, 'outputs.csv'), index=False)
+
+    print(f'Total execution time: {(time.time()-t00):.5f}s')
     
     print('')
     print(df_means.to_string(index=False))
