@@ -398,9 +398,12 @@ if __name__ == '__main__':
         draw.text((5, 5), f'{os.path.basename(sfile)}', (0,0,0), font=font)
         
         final_image_stack.append(np.array(composite_image))
-        
-    final_image_stack = [np.array(seg_image_pil)] + final_image_stack
-    final_image_stack = np.concatenate(final_image_stack, 0)
+    
+    if len(final_image_stack) > 0: 
+    	final_image_stack = [np.array(seg_image_pil)] + final_image_stack
+    	final_image_stack = np.concatenate(final_image_stack, 0)
+    else:
+    	final_image_stack = np.array(seg_image_pil)
     final_image_stack_pil = Image.fromarray(final_image_stack)
     final_image_stack_pil.save(os.path.join(output_dir, 'visualization.png'))
     
