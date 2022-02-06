@@ -197,33 +197,35 @@ if __name__ == '__main__':
 ########## FastSurfer segmentation ###############################################
     if fastsurfer:
         print('\n\n\n\nFastSurfer segmentation ==============================\n')
-        fastsurfer_sid = 'fastsurfer'
-        fastsurfer_sd = output_dir # This way, the outputs of FastSurfer will be saved in output_dir/fastsurfer
-        fs_seg_file = os.path.join(fastsurfer_sd, fastsurfer_sid, 'mri/aparc.DKTatlas+aseg.deep.mgz')
-        fs_seg_file_nifti = fs_seg_file[:-3] + 'nii.gz'
-        def to_native_space(fs_seg_file, fs_seg_file_nifti):
-            if os.path.isfile(fs_seg_file):
-                command = f'mri_vol2vol --mov {fs_seg_file} --targ {t1_file} --o {fs_seg_file_nifti} --regheader --interp nearest'
-                print(f'Aligning FastSurfer output file to back to native space:\n{bcolors.OKCYAN}{command}{bcolors.ENDC}')
-                subprocess.run(command, shell=True)
-            if not os.path.isfile(fs_seg_file_nifti):
-                print(f'{bcolors.FAIL}ERROR: alignment to native space failed.{bcolors.ENDC}')
-                raise Exception
-        if os.path.isfile(fs_seg_file_nifti): 
+        #fastsurfer_sid = 'fastsurfer'
+        #fastsurfer_sd = output_dir # This way, the outputs of FastSurfer will be saved in output_dir/fastsurfer
+        #fs_seg_file = os.path.join(fastsurfer_sd, fastsurfer_sid, 'mri/aparc.DKTatlas+aseg.deep.mgz')
+        #fs_seg_file_nifti = fs_seg_file[:-3] + 'nii.gz'
+        fs_seg_file = os.path.join(output_dir, 'fastsurfer_aparc.DKTatlas+aseg.deep.nii.gz')
+        #def to_native_space(fs_seg_file, fs_seg_file_nifti):
+        #    if os.path.isfile(fs_seg_file):
+        #        command = f'mri_vol2vol --mov {fs_seg_file} --targ {t1_file} --o {fs_seg_file_nifti} --regheader --interp nearest'
+        #        print(f'Aligning FastSurfer output file to back to native space:\n{bcolors.OKCYAN}{command}{bcolors.ENDC}')
+        #        subprocess.run(command, shell=True)
+        #    if not os.path.isfile(fs_seg_file_nifti):
+        #        print(f'{bcolors.FAIL}ERROR: alignment to native space failed.{bcolors.ENDC}')
+        #        raise Exception
+        if os.path.isfile(fs_seg_file): 
             print(f'Using the following pre-existing segmentation file: {fs_seg_file_nifti}')
-        elif os.path.isfile(fs_seg_file):
-            print(f'Using the following pre-existing segmentation file: {fs_seg_file}')
-            to_native_space(fs_seg_file, fs_seg_file_nifti)
+        #elif os.path.isfile(fs_seg_file):
+        #    print(f'Using the following pre-existing segmentation file: {fs_seg_file}')
+        #    to_native_space(fs_seg_file, fs_seg_file_nifti)
         else:
-            command = f'cd {os.path.join(os.path.abspath("."), "FastSurfer")}; ./run_fastsurfer.sh --t1 {t1_file} --sd {fastsurfer_sd} --sid {fastsurfer_sid} --seg_only'
+            #command = f'cd {os.path.join(os.path.abspath("."), "FastSurfer")}; ./run_fastsurfer.sh --t1 {t1_file} --sd {fastsurfer_sd} --sid {fastsurfer_sid} --seg_only'
+            command = f'cd {os.path.join(os.path.abspath("."), "FastSurfer/FastSurferCNN")}; python eval.py --in_name {t1_file} --out_name {fs_seg_file}  --simple_run'
             print(f'Running FastSurfer:\n{bcolors.OKCYAN}{command}{bcolors.ENDC}')
             subprocess.run(command, shell=True)
             if not os.path.isfile(fs_seg_file):
                 print(f'{bcolors.FAIL}ERROR: FastSurfer segmentation failed.{bcolors.ENDC}')
                 raise Exception
-            else:
-                to_native_space(fs_seg_file, fs_seg_file_nifti)
-        fs_seg_file = fs_seg_file_nifti
+            #else:
+            #    to_native_space(fs_seg_file, fs_seg_file_nifti)
+        #fs_seg_file = fs_seg_file_nifti
     
 ########## Registration ###############################################    
     if args.register:
