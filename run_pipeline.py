@@ -211,7 +211,7 @@ if __name__ == '__main__':
         #        print(f'{bcolors.FAIL}ERROR: alignment to native space failed.{bcolors.ENDC}')
         #        raise Exception
         if os.path.isfile(fs_seg_file): 
-            print(f'Using the following pre-existing segmentation file: {fs_seg_file_nifti}')
+            print(f'Using the following pre-existing segmentation file: {fs_seg_file}')
         #elif os.path.isfile(fs_seg_file):
         #    print(f'Using the following pre-existing segmentation file: {fs_seg_file}')
         #    to_native_space(fs_seg_file, fs_seg_file_nifti)
