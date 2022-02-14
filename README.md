@@ -4,6 +4,11 @@ This repo contains a pipeline that segments different structures on a T1 image, 
 
 ## Usage
 
+- Se connecter au cluster : `ssh login02`. Rentrer son mot de passe ICM
+- S'allouer un noeud de calcul avec GPU `salloc -p gpu-volta --mem 20G --cpus-per-task 4 --gres gpu:1`
+- Se connecter au noeud qui s'affiche (ex: `lmgpu03`) : `ssh lmgpu03`
+- Aller dans le dossier 
+
 ```bash
 python run_pipeline.py -t1 T1.nii.gz -s .../ASL/ -st icm_choroid_plexus,lateral_ventricle,cortical_wm
 ```
