@@ -394,7 +394,7 @@ if __name__ == '__main__':
         composite_image = Image.alpha_composite(t1_image_pil, signal_image_pil)
         
         composite_image = np.array(composite_image)
-        composite_image = np.concatenate([np.zeros((30, composite_image.shape[1], composite_image.shape[2]), dtype=composite_image.dtype), composite_image], 0)
+        composite_image = np.concatenate([255*np.ones((30, composite_image.shape[1], composite_image.shape[2]), dtype=composite_image.dtype), composite_image], 0)
         composite_image = Image.fromarray(composite_image)
         
         draw = ImageDraw.Draw(composite_image)
