@@ -123,7 +123,7 @@ if __name__ == '__main__':
     parser.add_argument('-t1','--t1', help='(Required) Path to the T1 image used for segmentation.', required=True)
     parser.add_argument('-s','--signal', help='(Optional) Path to the image containing the signal to measure (ASL, CBF, T1 weighted perfusion...). This can also be a folder containing multiple images.', required=False)
     parser.add_argument('-r','--register', action='store_true', help='(Optional) Add this flag to register the CFB/ASL images onto the T1 image using FLIRT.', required=False)
-    parser.add_argument('-st', '--structures', help='(Optional) Add other structures to segment.', required=False, default='plexus, plexus')
+    parser.add_argument('-st', '--structures', help='(Optional) Add other structures to segment.', required=False, default='icm_choroid_plexus,lateral_ventricle,cortical_wm,gm,thalamus')
     parser.add_argument('-fa','--flirt_args', help='(Optional) Additional arguments to pass to FLIRT, for example for changing the cost function.', required=False, default='')
     args = parser.parse_args()
 
