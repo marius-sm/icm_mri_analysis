@@ -22,6 +22,11 @@ Mettre les nouveaux patients (en DICOM) dans le dossier patients
 - Faire `python /network/lustre/iss01/home/natalia.shor/icm_mri_analysis/run_pipeline.py -t1 __3D_T1_... .nii -s signal`
 - Cela devrait créer un dossier `roi_pipeline...` dans le dossier du patient contenant le tableau excel, une image de visualisation, le masque des plexus et la segmentation FastSurfer
 
+Pour ouvrir FLSeyes
+- Se mettre sur le terminal de l'ordinateur (pas sur le cluster)
+- Faire `module load FSL/6.0.3`
+- Faire `fsleyes`
+
 ## Utilisation pour un patient
 
 - Convertir les DICOM en NIfTI `dcm2niix dossier_avec_les_dicoms`
