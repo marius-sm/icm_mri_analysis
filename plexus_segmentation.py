@@ -270,14 +270,16 @@ if __name__ == '__main__':
     
     t00 = time.time()
     
-    if not os.path.isfile('plexus_model.pth'):
-        print(f'ERROR: "plexus_model.pth" not found.')
+    ckpt_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'plexus_model.pth')
+    
+    if not os.path.isfile(ckpt_path):
+        print(f'ERROR: {ckpt_path} not found.')
         sys.exit()
     
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'Using {device}.')
     
-    checkpoint = torch.load('plexus_model.pth', map_location=device)
+    checkpoint = torch.load(ckpt_path, map_location=device)
     config = checkpoint['config']
     
     if (not os.path.isfile(args.input)) and not (not os.path.isdir(args.input)):
