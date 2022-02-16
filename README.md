@@ -18,12 +18,8 @@ Mettre les nouveaux patients (en DICOM) dans le dossier patients
 - Faire `dcm2niix .`
 - Dans le dossier du patient, créer un dossier `signal` et glisser tous les fichiers se terminant en `.nii` qui nous intéressent dedans
 - Vérifier la présence du fichier T1 se terminant en `.nii` (`__3D_T1_... .nii`), mais ne pas le mettre dans le dossier `signal`
-- Faire `cd /network/lustre/iss01/home/natalia.shor/icm_mri_analysis`
 - Faire `conda activate mri_analysis`
-- Faire `python run_pipeline.py -t1 `
-- Glisser le fichier T1 se terminant en `.nii` (`__3D_T1_... .nii`) dans le terminal
-- rajouter `-s ` et glisser les dossier `signal` dans le terminal
-- Faire entrée
+- Faire `python /network/lustre/iss01/home/natalia.shor/icm_mri_analysis/run_pipeline.py -t1 __3D_T1_... .nii -s signal`
 - Cela devrait créer un dossier `roi_pipeline...` dans le dossier du patient contenant le tableau excel, une image de visualisation, le masque des plexus et la segmentation FastSurfer
 
 ## Utilisation pour un patient
