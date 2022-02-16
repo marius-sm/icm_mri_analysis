@@ -398,7 +398,7 @@ if __name__ == '__main__':
         composite_image = Image.fromarray(composite_image)
         
         draw = ImageDraw.Draw(composite_image)
-        font = ImageFont.truetype('verdana.ttf', 16)
+        font = ImageFont.truetype(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'verdana.ttf'), 16)
         draw.text((5, 5), f'{os.path.basename(sfile)}', (0,0,0), font=font)
         
         final_image_stack.append(np.array(composite_image))
