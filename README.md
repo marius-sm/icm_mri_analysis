@@ -2,12 +2,29 @@
 
 This repo contains a pipeline that segments different structures on a T1 image, and then maps the segmentation masks to other images of the same subject (e.g. ASL) in order to measure the signal from these different structures.
 
-## Usage
+## Utilisation pour Natalia
 
+Depuis ta session sur ton poste ICM
+
+Aller dans les dossiers, dans `/network/lustre/iss01/home/natalia.shor`
+Mettre les nouveaux patients (en DICOM) dans le dossier patients
+
+- Ouvrir le terminal
 - Se connecter au cluster : `ssh login02`. Rentrer son mot de passe ICM
-- S'allouer un noeud de calcul avec GPU `salloc -p gpu-volta --mem 20G --cpus-per-task 4 --gres gpu:1`
-- Se connecter au noeud qui s'affiche (ex: `lmgpu03`) : `ssh lmgpu03`
-- Aller dans le dossier 
+- S'allouer un noeud de calcul avec GPU `salloc -p gpu --mem 20G --cpus-per-task 4 --gres gpu:1`
+- Se connecter au noeud qui s'affiche (ex: `lmgpu01`) : `ssh lmgpu01`
+- Faire `module load dcm2niix`
+- Faire `cd ` puis glisser le dossier du patient (qui contient les DICOM) dans la fenêtre du terminal, puis appuyer sur entrée
+- Faire `dcm2niix .`
+- Dans le dossier du patient, créer un dossier `signal` et glisser tous les fichiers se terminant en `.nii` qui nous intéressent dedans
+- Vérifier la présence du fichier T1 se terminant en `.nii` (`__3D_T1_... .nii`), mais ne pas le mettre dans le dossier `signal`
+- Faire `cd /network/lustre/iss01/home/natalia.shor/icm_mri_analysis`
+- Faire `conda activate mri_analysis`
+- Faire `python run_pipeline.py -t1 `
+- Glisser le fichier T1 se terminant en `.nii` (`__3D_T1_... .nii`) dans le terminal
+- rajouter `-s ` et glisser les dossier `signal` dans le terminal
+- Faire entrée
+- Cela devrait créer un dossier `roi_pipeline...` dans le dossier du patient contenant le tableau excel, une image de visualisation, le masque des plexus et la segmentation FastSurfer
 
 ## Utilisation pour un patient
 
