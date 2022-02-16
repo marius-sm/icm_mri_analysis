@@ -9,6 +9,13 @@ This repo contains a pipeline that segments different structures on a T1 image, 
 - Se connecter au noeud qui s'affiche (ex: `lmgpu03`) : `ssh lmgpu03`
 - Aller dans le dossier 
 
+## Utilisation pour un patient
+
+- Convertir les DICOM en NIfTI `dcm2niix dossier_avec_les_dicoms`
+- Ça devrait creer un fichier `.nii` et un fichier `.json` par séquence
+- Mettre les séquences qu'on veut analyser (hors T1) dans un dossier séparé
+- Utiliser la commande :
+
 ```bash
 python run_pipeline.py -t1 T1.nii.gz -s .../ASL/ -st icm_choroid_plexus,lateral_ventricle,cortical_wm
 ```
