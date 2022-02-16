@@ -216,7 +216,7 @@ if __name__ == '__main__':
         #    print(f'Using the following pre-existing segmentation file: {fs_seg_file}')
         #    to_native_space(fs_seg_file, fs_seg_file_nifti)
         else:
-            fs_dir = os.path.join(os.path.abspath('.'), 'FastSurfer')
+            fs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'FastSurfer')
             #command = f'cd {os.path.join(os.path.abspath("."), "FastSurfer")}; ./run_fastsurfer.sh --t1 {t1_file} --sd {fastsurfer_sd} --sid {fastsurfer_sid} --seg_only'
             command = f'cd {os.path.join(fs_dir, "FastSurferCNN")}; python eval.py --in_name {t1_file} --out_name {fs_seg_file}  --simple_run'
             command += f' --network_sagittal_path {os.path.join(fs_dir, "checkpoints/Sagittal_Weights_FastSurferCNN/ckpts/Epoch_30_training_state.pkl")}'
