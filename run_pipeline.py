@@ -185,7 +185,7 @@ if __name__ == '__main__':
         print('\n\n\n\nChoroid plexus segmentation ===========================\n')
         plexus_mask_file = os.path.join(output_dir, 'plexus_mask.nii.gz')
         if not os.path.isfile(plexus_mask_file):
-            command = f'python {os.path.join(os.path.abspath("."), "plexus_segmentation.py")} -i {t1_file} -o {plexus_mask_file}'
+            command = f'python {os.path.join(os.path.dirname(os.path.abspath(__file__)), "plexus_segmentation.py")} -i {t1_file} -o {plexus_mask_file}'
             print(f'Running:\n{bcolors.OKCYAN}{command}{bcolors.ENDC}')
             subprocess.run(command, shell=True)
         else:
